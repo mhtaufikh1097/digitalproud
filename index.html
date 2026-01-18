@@ -1,71 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>One Moment</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You</title>
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="assets/css/base.css">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Antique&family=Dancing+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
 
-<main id="stage">
+<div id="bg"></div>
 
-  <!-- STEP 0 : GIFT -->
-  <div class="step active gift-step">
-    <div class="gift-wrapper">
-      <img src="assets/img/1.gif" alt="Gift" id="gift">
-      <p class="hint">Tap the gift</p>
-    </div>
+<div id="app">
+
+  <!-- STEP 0 -->
+  <div id="step0" class="card">
+    <img src="assets/img/1.gif" id="gift">
+    <p>Klik hadiahnya 🎁</p>
   </div>
 
- <!-- STEP 1 : FOR YOU + INPUT NAME -->
-<div class="step input-step">
-  <p class="small">For you</p>
+  <!-- STEP 1 -->
+  <div id="step1" class="card hidden">
+    <p>Masukin nama kamu 🤍</p>
+    <input id="nama" placeholder="Nama kamu">
+    <button id="btnStart">Mulai</button>
+  </div>
 
-  <input
-    type="text"
-    id="nameInput"
-    placeholder="Type your name here"
-    maxlength="20"
-  />
+  <!-- STEP 2 -->
+  <div id="step2" class="card hidden">
+    <div class="name" id="halo"></div>
+    <p>Tap ❤️ dulu ya</p>
+    <div class="heart" id="btnHeart">❤️</div>
+  </div>
 
-  <button id="nameSubmit">Continue</button>
+  <!-- STEP 3 -->
+  <div id="step3" class="card hidden" id="storyArea">
+    <div class="message-box">
+      <div class="emoji-layer"></div>
+      <div class="message-header">pesan khusus untukmu</div>
+      <span id="story"></span><span id="cursor" class="cursor"></span>
+    </div>
+    <div class="tap">(tap untuk lanjut)</div>
+  </div>
+
 </div>
 
-
-  <!-- STEP 2 : NAME + LOVE -->
-  <div class="step love-step">
-    <h1 id="recipient-name">Someone Special</h1>
-    <p class="love-hint">
-      please click <span id="love">❤</span>
-    </p>
-  </div>
-
-  <!-- STEP 3 : OPENING -->
-  <div class="step">
-    <p>There is something I want to say to you.</p>
-  </div>
-
-  <!-- STEP 4 : MESSAGE -->
-  <div class="step" id="message"></div>
-
-  <!-- STEP 5 : SIGNATURE -->
-  <div class="step">
-    <p class="small">— dari</p>
-    <strong id="sender-name"></strong>
-  </div>
-
-</main>
-
-<!-- JS -->
-<script src="assets/js/render.js"></script>
-<script src="assets/js/step.js"></script>
-
+<script src="assets/js/main.js"></script>
 </body>
 </html>

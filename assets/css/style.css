@@ -1,0 +1,264 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Shippori Antique', sans-serif;
+  overflow: hidden;
+  color: #2a2a2a;
+}
+
+/* ================= BACKGROUND ================= */
+#bg {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(60% 40% at 20% 20%, #ffd6e8, transparent 60%),
+    radial-gradient(50% 40% at 80% 30%, #dbe9ff, transparent 60%),
+    linear-gradient(135deg, #f4f7ff, #fdf1f8);
+  animation: bgMove 18s ease-in-out infinite alternate;
+  transition: transform .8s ease;
+}
+
+@keyframes bgMove {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(12deg); }
+}
+
+.bg-in {
+  transform: scale(1.08);
+}
+
+.bg-out {
+  transform: scale(1);
+}
+
+/* ================= APP ================= */
+#app {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+}
+
+/* ================= CARD ================= */
+.card {
+  background: rgba(255, 255, 255, .65);
+  backdrop-filter: blur(12px);
+  padding: 34px 30px;
+  border-radius: 22px;
+  max-width: 420px;
+  width: 100%;
+}
+
+.hidden {
+  display: none;
+}
+
+/* ================= CARD TRANSITION ================= */
+.card.enter {
+  animation: cardEnter .7s cubic-bezier(.2,.8,.2,1);
+}
+
+.card.exit {
+  animation: cardExit .5s ease forwards;
+}
+
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: scale(1.08) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes cardExit {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(.92);
+  }
+}
+
+/* ================= GIFT ================= */
+#gift {
+  width: 140px;
+  cursor: pointer;
+  animation: giftFloat 3s ease-in-out infinite;
+}
+
+@keyframes giftFloat {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* ================= INPUT ================= */
+input {
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,.1);
+  margin-top: 16px;
+  font-size: .95rem;
+  outline: none;
+}
+
+button {
+  margin-top: 18px;
+  padding: 12px 30px;
+  border-radius: 24px;
+  border: none;
+  cursor: pointer;
+  font-size: .9rem;
+  background: linear-gradient(135deg,#ff9acb,#a88cff);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(168,140,255,.35);
+}
+
+/* ================= NAME ================= */
+.name {
+  font-family: 'Dancing Script', cursive;
+  font-size: 2.4rem;
+  color: #6a5acd;
+}
+
+/* ================= HEART ================= */
+.heart {
+  font-size: 2rem;
+  cursor: pointer;
+  animation: heartbeat 1.6s infinite;
+}
+
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.35); }
+  60% { transform: scale(1); }
+}
+
+/* ================= MESSAGE BOX ================= */
+.message-box {
+  position: relative;
+  background: rgba(255,255,255,.85);
+  border-radius: 20px;
+  padding: 20px 18px 24px;
+  text-align: left;
+  box-shadow: 0 20px 40px rgba(0,0,0,.12);
+  animation: glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 0 rgba(168,140,255,.2); }
+  to { box-shadow: 0 0 28px rgba(168,140,255,.45); }
+}
+
+/* BORDER GRADIENT */
+.message-box::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 22px;
+  background: linear-gradient(135deg,#ff9acb,#a88cff,#7fd7ff);
+  z-index: -1;
+  filter: blur(6px);
+  opacity: .7;
+}
+
+/* ================= EMOJI FLOAT ================= */
+.emoji-layer {
+  position: absolute;
+  top: -26px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.emoji {
+  font-size: 1.4rem;
+  animation: floatEmoji 3.5s ease-in-out infinite;
+  opacity: .85;
+}
+
+.emoji:nth-child(2){ animation-delay: .8s }
+.emoji:nth-child(3){ animation-delay: 1.6s }
+.emoji:nth-child(4){ animation-delay: 2.4s }
+
+@keyframes floatEmoji {
+  0% {
+    transform: translateY(8px) scale(.9);
+    opacity: 0;
+  }
+  30% { opacity: 1; }
+  60% {
+    transform: translateY(-6px) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-14px) scale(.95);
+    opacity: 0;
+  }
+}
+
+/* ================= MESSAGE CONTENT ================= */
+.message-header {
+  font-size: .7rem;
+  letter-spacing: .15em;
+  opacity: .6;
+  margin-bottom: 10px;
+}
+
+#story {
+  white-space: pre-line;
+  min-height: 96px;
+  font-size: .95rem;
+}
+
+.cursor {
+  display: inline-block;
+  width: 8px;
+  background: #6a5acd;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%,50% { opacity: 1; }
+  51%,100% { opacity: 0; }
+}
+
+.tap {
+  text-align: center;
+  font-size: .7rem;
+  opacity: .5;
+  margin-top: 14px;
+}
+
+/* ================= RIPPLE ================= */
+.ripple {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  background: rgba(255,255,255,.6);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: scale(0);
+  animation: ripple .6s ease-out;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(15);
+    opacity: 0;
+  }
+}

@@ -59,15 +59,25 @@ step3.addEventListener("click", () => next());
 
 /* NAVIGASI */
 function next(){
+  // dari step 2 (❤️) ke cie ultah
   if(step === 2){
-    show(3);
-    typeText();
+    show(25);
+
+    // auto lanjut ke story
+    setTimeout(() => {
+      show(3);
+      typeText();
+    }, 1800); // 1.8 detik (sweet spot)
+
     return;
   }
+
+  // lanjut story seperti biasa
   if(step === 3 && !typing){
     typeText();
   }
 }
+
 
 /* TRANSISI STEP */
 function show(n){

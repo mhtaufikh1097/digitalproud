@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>One Moment</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/css/base.css">
+</head>
+
+<body>
+
+<main id="stage">
+
+  <!-- STEP 0 : GIFT -->
+  <div class="step active gift-step">
+    <div class="gift-wrapper">
+      <img src="assets/img/1.gif" alt="Gift" id="gift">
+      <p class="hint">Tap the gift</p>
+    </div>
+  </div>
+
+ <!-- STEP 1 : FOR YOU + INPUT NAME -->
+<div class="step input-step">
+  <p class="small">For you</p>
+
+  <input
+    type="text"
+    id="nameInput"
+    placeholder="Type your name here"
+    maxlength="20"
+  />
+
+  <button id="nameSubmit">Continue</button>
+</div>
+
+
+  <!-- STEP 2 : NAME + LOVE -->
+  <div class="step love-step">
+    <h1 id="recipient-name">Someone Special</h1>
+    <p class="love-hint">
+      please click <span id="love">❤</span>
+    </p>
+  </div>
+
+  <!-- STEP 3 : OPENING -->
+  <div class="step">
+    <p>There is something I want to say to you.</p>
+  </div>
+
+  <!-- STEP 4 : MESSAGE -->
+  <div class="step" id="message"></div>
+
+  <!-- STEP 5 : SIGNATURE -->
+  <div class="step">
+    <p class="small">— dari</p>
+    <strong id="sender-name"></strong>
+  </div>
+
+</main>
+
+<!-- JS -->
+<script src="assets/js/render.js"></script>
+<script src="assets/js/step.js"></script>
+
+</body>
+</html>

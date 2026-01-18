@@ -1,0 +1,25 @@
+body {
+  background: linear-gradient(180deg, #f6f7fb, #ffffff);
+}
+
+.intro-text {
+  font-size: 1rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.name h1 {
+  font-family: 'Playfair Display', serif;
+}
+
+.message p {
+  max-width: 680px;
+  margin: 12px auto;
+  font-size: 1.2rem;
+}
+
+.signature strong {
+  font-size: 1.3rem;
+  font-family: 'Playfair Display', serif;
+}

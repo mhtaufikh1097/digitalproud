@@ -1,0 +1,57 @@
+/* === ROMANTIC THEME === */
+
+body {
+  background: linear-gradient(
+    180deg,
+    #fde2e4 0%,
+    #fff1f2 60%,
+    #ffffff 100%
+  );
+  color: #3a2a2a;
+}
+
+/* intro */
+.intro-text {
+  font-size: 0.9rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+/* name */
+.name h1 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  color: #7b2d3a;
+}
+
+/* opening */
+.opening p {
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* message */
+.message p {
+  max-width: 640px;
+  margin: 16px auto;
+  font-size: 1.2rem;
+  line-height: 1.9;
+}
+
+/* signature */
+.signature p {
+  opacity: 0.7;
+}
+
+.signature strong {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: #7b2d3a;
+}
+
+/* closing */
+.closing p {
+  font-size: 0.95rem;
+  opacity: 0.6;
+}

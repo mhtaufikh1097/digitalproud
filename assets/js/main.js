@@ -28,7 +28,11 @@ const btnHeart = document.getElementById("btnHeart");
 const step3 = document.getElementById("step3");
 
 /* STEP 0 */
-gift.onclick = () => show(1);
+gift.onclick = () => {
+  bg.classList.add("bg-story"); // ganti background + blur
+  show(1);
+};
+
 
 /* STEP 1 */
 btnStart.onclick = () => {

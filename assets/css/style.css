@@ -63,7 +63,7 @@ body {
       rgba(0,0,0,.25),
       rgba(0,0,0,.25)
     ),
-    url("../img/2.jpg") center / cover no-repeat;
+    url("../img/3.jpg") center / cover no-repeat;
   filter: blur(4px);   /* 🔥 NAIK DARI 8px KE 10px */
   opacity: 1;
 }
@@ -309,4 +309,28 @@ button {
     transform: scale(15);
     opacity: 0;
   }
+}
+
+/* ================= MINI ALERT ================= */
+#miniAlert {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(255,255,255,.9);
+  backdrop-filter: blur(8px);
+  color: #6a5acd;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: .8rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,.15);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .4s ease, transform .4s ease;
+  z-index: 9999;
+}
+
+#miniAlert.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }

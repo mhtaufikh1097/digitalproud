@@ -35,11 +35,21 @@ gift.onclick = () => {
 
 
 /* STEP 1 */
+const miniAlert = document.getElementById("miniAlert");
+
 btnStart.onclick = () => {
-  namaUser = nama.value || "Kamu";
+  if (!nama.value.trim()) {
+    miniAlert.classList.add("show");
+    setTimeout(() => miniAlert.classList.remove("show"), 2000);
+    return;
+  }
+
+  namaUser = nama.value.trim();
   halo.innerText = "Hai, " + namaUser + " ✨";
   show(2);
 };
+
+
 
 /* STEP 2 */
 btnHeart.onclick = () => next();

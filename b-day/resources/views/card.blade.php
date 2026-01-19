@@ -79,13 +79,18 @@
                 box-shadow: 0 0 0 0 rgba(251, 191, 36, 0);
             }
         }
+
+        .choice-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px 0px #000000;
+        }
     </style>
 </head>
 
 <body class="bg-zinc-900 text-white overflow-hidden h-screen w-screen">
 
     <!-- STAGE 1: THE GIFT -->
-    <div id="stage-1" class="card-stage z-30 bg-yellow-50">
+    <div id="stage-1" class="card-stage z-40 bg-yellow-50">
         <div class="text-center relative">
             <p class="text-black mb-8 font-bold text-lg animate-bounce">Tap to Open for {{ $data->recipient_name }}! 🎁
             </p>
@@ -103,12 +108,55 @@
     </div>
 
     <!-- STAGE 2: BUBBLE POP GAME -->
-    <div id="stage-2" class="card-stage z-20 bg-blue-400 hidden-stage overflow-hidden">
+    <div id="stage-2" class="card-stage z-30 bg-blue-400 hidden-stage overflow-hidden">
         <div class="absolute inset-0 pointer-events-none flex items-center justify-center">
             <h2 class="text-4xl font-display font-black text-white drop-shadow-[4px_4px_0_#000] z-0 opacity-50">POP THE
                 BUBBLES!</h2>
         </div>
         <!-- Bubbles injected by JS -->
+    </div>
+
+    <!-- STAGE 2.5: DIALOG & AVATAR -->
+    <div id="stage-dialog" class="card-stage z-20 bg-pink-300 hidden-stage p-4">
+        <div class="max-w-md w-full flex flex-col items-center">
+            <!-- AVATAR -->
+            <div id="avatar-container" class="w-32 h-32 mb-6 relative">
+                <svg class="w-full h-full drop-shadow-[4px_4px_0_#000]" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" fill="#FBBF24" r="45" stroke="black" stroke-width="3">
+                    </circle>
+                    <!-- Eyes -->
+                    <g class="eyes">
+                        <circle cx="35" cy="45" fill="black" r="6"></circle>
+                        <circle cx="65" cy="45" fill="black" r="6"></circle>
+                    </g>
+                    <!-- Mouth -->
+                    <path id="avatar-mouth" d="M 35 60 Q 50 75 65 60" fill="none" stroke="black"
+                        stroke-linecap="round" stroke-width="3"></path>
+                    <!-- Cheeks -->
+                    <circle cx="25" cy="55" r="4" fill="#F472B6" opacity="0.6"></circle>
+                    <circle cx="75" cy="55" r="4" fill="#F472B6" opacity="0.6"></circle>
+                </svg>
+            </div>
+
+            <!-- DIALOG BOX -->
+            <div
+                class="bg-white border-4 border-black rounded-2xl p-6 shadow-[8px_8px_0px_0px_#000] w-full text-black relative">
+                <!-- Speech Bubble Arrow -->
+                <div
+                    class="absolute -top-4 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-b-[15px] border-b-black">
+                </div>
+                <div
+                    class="absolute -top-[11px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[11px] border-l-transparent border-r-[11px] border-r-transparent border-b-[11px] border-b-white">
+                </div>
+
+                <p id="dialog-text" class="font-display font-bold text-lg min-h-[3.5rem]">...</p>
+
+                <!-- CHOICES CONTAINER -->
+                <div id="choices-container" class="mt-4 flex flex-col space-y-3 hidden">
+                    <!-- Buttons injected by JS -->
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- STAGE 3: THE REVEAL -->
@@ -173,6 +221,7 @@
         const giftBox = document.getElementById('gift-box');
         const stage1 = document.getElementById('stage-1');
         const stage2 = document.getElementById('stage-2');
+        const stageDialog = document.getElementById('stage-dialog');
         const stage3 = document.getElementById('stage-3');
 
         giftBox.addEventListener('click', () => {
@@ -197,6 +246,7 @@
             const totalBubbles = 15; // Requires 10 pops to proceed
             const requiredPops = 8;
 
+            // Speed up slightly
             const colors = ['#FBBF24', '#f472b6', '#60A5FA', '#34D399', '#F87171'];
 
             const interval = setInterval(() => {
@@ -229,8 +279,6 @@
                         onComplete: () => bubble.remove()
                     });
 
-                    // Sound effect placeholder (optional)
-
                     if (poppedCount === requiredPops) {
                         clearInterval(interval);
                         endStage2();
@@ -244,15 +292,154 @@
                     if (bubble.parentNode) bubble.remove();
                 }, 4000);
 
-            }, 400); // New bubble every 400ms
+            }, 300);
         }
 
         function endStage2() {
             setTimeout(() => {
                 stage2.classList.add('hidden-stage');
-                stage3.classList.remove('hidden-stage');
-                revealCard();
+                stageDialog.classList.remove('hidden-stage');
+                startDialog();
             }, 500);
+        }
+
+        // --- STAGE 2.5: DIALOG SYSTEM ---
+
+        const scripts = [{
+                text: "Wow! Great popping skills! 🎈",
+                choices: []
+            },
+            {
+                text: "Are you ready for your surprise?",
+                choices: [{
+                        label: "YES BORN READY!",
+                        next: 'yes'
+                    },
+                    {
+                        label: "Hmm, maybe...",
+                        next: 'maybe'
+                    }
+                ]
+            }
+        ];
+
+        const branches = {
+            'yes': {
+                text: "I love the energy! Let's go! 🚀",
+                choices: [{
+                    label: "Reveal it!",
+                    action: 'finish'
+                }]
+            },
+            'maybe': {
+                text: "Don't be shy! It's gonna be great! ✨",
+                choices: [{
+                    label: "Okay, show me!",
+                    action: 'finish'
+                }]
+            }
+        };
+
+        const dialogText = document.getElementById('dialog-text');
+        const choicesContainer = document.getElementById('choices-container');
+        const avatarContainer = document.getElementById('avatar-container');
+        const avatarMouth = document.getElementById('avatar-mouth');
+
+        function startDialog() {
+            // Animate Avatar In
+            gsap.fromTo(avatarContainer, {
+                scale: 0,
+                rotation: -180
+            }, {
+                scale: 1,
+                rotation: 0,
+                duration: 1,
+                ease: "elastic.out(1, 0.5)"
+            });
+
+            runScriptStep(scripts[0]);
+        }
+
+        function runScriptStep(stepData) {
+            choicesContainer.classList.add('hidden');
+            choicesContainer.innerHTML = ''; // clear old choices
+            typeText(stepData.text, () => {
+                // After typing finish
+                if (stepData.choices && stepData.choices.length > 0) {
+                    showChoices(stepData.choices);
+                } else {
+                    // Auto advance if no choices (after delay)
+                    setTimeout(() => {
+                        runScriptStep(scripts[1]); // Harcoded for simple linear flow to start
+                    }, 1500);
+                }
+            });
+        }
+
+        function showChoices(choices) {
+            choicesContainer.classList.remove('hidden');
+            gsap.fromTo(choicesContainer, {
+                opacity: 0,
+                y: 10
+            }, {
+                opacity: 1,
+                y: 0
+            });
+
+            choices.forEach(choice => {
+                const btn = document.createElement('button');
+                btn.className =
+                    "w-full bg-white border-2 border-black rounded-xl py-3 font-display font-bold text-lg shadow-[4px_4px_0px_0px_#000] hover:bg-yellow-100 transition-colors choice-btn text-left px-4";
+                btn.innerText = choice.label;
+                btn.onclick = () => handleChoice(choice);
+                choicesContainer.appendChild(btn);
+            });
+        }
+
+        function handleChoice(choice) {
+            if (choice.action === 'finish') {
+                endStageDialog();
+            } else if (choice.next && branches[choice.next]) {
+                runScriptStep(branches[choice.next]);
+            }
+        }
+
+        function typeText(text, callback) {
+            dialogText.innerText = "";
+            let i = 0;
+            // Mouth animation
+            gsap.to(avatarMouth, {
+                scaleY: 0.2,
+                yoyo: true,
+                repeat: -1,
+                duration: 0.1
+            });
+
+            const interval = setInterval(() => {
+                dialogText.innerText += text.charAt(i);
+                i++;
+                if (i >= text.length) {
+                    clearInterval(interval);
+                    gsap.killTweensOf(avatarMouth);
+                    gsap.to(avatarMouth, {
+                        scaleY: 1
+                    }); // reset mouth
+                    if (callback) callback();
+                }
+            }, 40);
+        }
+
+        function endStageDialog() {
+            gsap.to(stageDialog, {
+                opacity: 0,
+                scale: 0.9,
+                duration: 0.5,
+                onComplete: () => {
+                    stageDialog.classList.add('hidden-stage');
+                    stage3.classList.remove('hidden-stage');
+                    revealCard();
+                }
+            });
         }
 
         // --- STAGE 3: CARD REVEAL ---

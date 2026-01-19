@@ -130,7 +130,7 @@
     <main class="container mx-auto px-4 py-8 max-w-lg relative z-10 w-full" id="main-container">
 
         <!-- Header / Logo Area (Simplified, No Menu) -->
-        <div class="text-center mb-12 relative z-10 reveal-item">
+        <div class="text-center mb-40 relative z-10 reveal-item">
             <div
                 class="inline-flex items-center space-x-3 mb-6 bg-white dark:bg-zinc-800 px-6 py-2 rounded-full border-3 border-black shadow-neo-sm transform -rotate-2 hover:rotate-0 transition-transform duration-300">
                 <div class="w-8 h-8 bg-primary rounded-full border-2 border-black flex items-center justify-center">
@@ -183,7 +183,25 @@
 
             <div
                 class="bg-surface-light dark:bg-surface-dark border-3 border-black dark:border-white rounded-3xl p-8 pt-16 shadow-neo dark:shadow-[8px_8px_0px_0px_#ffffff] relative z-10">
-                <form class="space-y-6">
+                <form class="space-y-6" id="create-card-form" enctype="multipart/form-data">
+                    @csrf
+                    <!-- Sender Number -->
+                    <div class="space-y-2 group">
+                        <label
+                            class="block text-xs font-bold uppercase tracking-widest text-gray-800 dark:text-gray-200 group-focus-within:text-green-500 transition-colors">
+                            Sender Number (WhatsApp)
+                        </label>
+                        <div class="relative">
+                            <input
+                                class="w-full bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-500 rounded-xl px-4 py-3 focus:ring-0 focus:border-black dark:focus:border-white transition-all neo-input placeholder-gray-400 dark:placeholder-gray-600 text-lg font-display"
+                                placeholder="e.g. 628123456789" type="text" name="sender_number" required />
+                            <span
+                                class="absolute right-4 top-3.5 text-gray-400 group-focus-within:text-black dark:group-focus-within:text-white transition-colors">
+                                <span class="material-icons-round text-2xl">whatsapp</span>
+                            </span>
+                        </div>
+                    </div>
+
                     <!-- Recipient -->
                     <div class="space-y-2 group">
                         <label
@@ -193,7 +211,7 @@
                         <div class="relative">
                             <input
                                 class="w-full bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-500 rounded-xl px-4 py-3 focus:ring-0 focus:border-black dark:focus:border-white transition-all neo-input placeholder-gray-400 dark:placeholder-gray-600 text-lg font-display"
-                                placeholder="e.g. Budi, Sarah" type="text" />
+                                placeholder="e.g. Budi, Sarah" type="text" name="recipient_name" required />
                             <span
                                 class="absolute right-4 top-3.5 text-gray-400 group-focus-within:text-black dark:group-focus-within:text-white transition-colors">
                                 <span class="material-icons-round text-2xl">face</span>
@@ -210,7 +228,7 @@
                         <div class="relative">
                             <input
                                 class="w-full bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-500 rounded-xl px-4 py-3 focus:ring-0 focus:border-black dark:focus:border-white transition-all neo-input placeholder-gray-400 dark:placeholder-gray-600 text-lg font-display"
-                                placeholder="25" type="number" />
+                                placeholder="25" type="number" name="age" required />
                             <span
                                 class="absolute right-4 top-3.5 text-gray-400 group-focus-within:text-black dark:group-focus-within:text-white transition-colors">
                                 <span class="material-icons-round text-2xl">cake</span>
@@ -222,19 +240,22 @@
                     <div class="space-y-2">
                         <label
                             class="block text-xs font-bold uppercase tracking-widest text-gray-800 dark:text-gray-200">
-                            Add a Photo
+                            Add a Photo (Optional)
                         </label>
                         <label
                             class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl px-4 py-8 flex flex-col items-center justify-center cursor-pointer hover:bg-white dark:hover:bg-gray-800 hover:border-black dark:hover:border-white transition-all group relative overflow-hidden">
-                            <input accept="image/*" class="hidden" type="file" />
+                            <input accept="image/*" class="hidden" type="file" name="photo" id="photo-input" />
                             <div
                                 class="absolute inset-0 bg-secondary opacity-0 group-hover:opacity-5 transition-opacity">
                             </div>
                             <span
-                                class="material-icons-round text-4xl mb-2 text-gray-400 group-hover:text-primary group-hover:scale-110 transition-transform duration-300">add_a_photo</span>
+                                class="material-icons-round text-4xl mb-2 text-gray-400 group-hover:text-primary group-hover:scale-110 transition-transform duration-300"
+                                id="photo-icon">add_a_photo</span>
                             <span
-                                class="text-sm font-display font-bold text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white">Upload
-                                sweet memory</span>
+                                class="text-sm font-display font-bold text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white"
+                                id="photo-text">Upload sweet memory</span>
+                            <span class="text-xs text-green-600 font-bold hidden" id="photo-success">Photo
+                                Selected!</span>
                         </label>
                     </div>
 
@@ -246,7 +267,7 @@
                         </label>
                         <textarea
                             class="w-full bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-500 rounded-xl px-4 py-3 focus:ring-0 focus:border-black dark:focus:border-white transition-all neo-input placeholder-gray-400 dark:placeholder-gray-600 text-base font-body resize-none"
-                            placeholder="Write something sweet or funny..." rows="3"></textarea>
+                            placeholder="Write something sweet or funny..." rows="3" name="message" required></textarea>
                     </div>
 
                     <!-- Divider -->
@@ -259,7 +280,7 @@
                     <!-- Submit Button -->
                     <button
                         class="w-full bg-primary hover:bg-yellow-300 text-black border-3 border-black rounded-xl py-4 font-display font-bold text-xl uppercase tracking-wider shadow-neo hover:shadow-neo-hover active:shadow-none transition-all flex items-center justify-center space-x-3 group neo-button relative overflow-hidden"
-                        type="button">
+                        type="submit" id="submit-btn">
                         <span class="relative z-10">Create Card</span>
                         <span
                             class="material-icons-round relative z-10 group-hover:translate-x-1 transition-transform">arrow_forward</span>
@@ -267,6 +288,16 @@
                         <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity">
                         </div>
                     </button>
+
+                    <div id="result-area"
+                        class="hidden mt-4 bg-green-100 border-2 border-green-500 text-green-800 p-4 rounded-xl text-center">
+                        <p class="font-bold mb-2">Card Created Successfully! 🎉</p>
+                        <input type="text" readonly id="share-link"
+                            class="w-full bg-white border border-green-500 rounded px-2 py-1 text-sm mb-2" />
+                        <a href="" id="open-link" target="_blank"
+                            class="inline-block bg-green-500 text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-green-600 transition">View
+                            Card</a>
+                    </div>
                 </form>
             </div>
         </div>
@@ -282,12 +313,7 @@
         </div>
     </main>
 
-    <!-- Side Decoration (Desktop) -->
-    <div class="fixed bottom-0 right-0 w-48 h-auto pointer-events-none z-20 hidden lg:block reveal-item"
-        style="transform-origin: bottom right;">
-        <img alt="Abstract party shape" class="w-full h-full object-contain drop-shadow-xl"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRufCr0HknboYmaHFvMPrWKwaL35zS5bwUvcERqpbW1t16gOaFh8ytMy0zWnJxqAUTA27Gyl14RJCfOySTj0wcf7Fq-ucMTZUlDpXWbit7ZHIy5Bgf86l3YymoRoxj4KMHi3zzH6uhUw5YtXt0oqW9AJUTAyWgOGL9JRRGNSdvwipCoIEfcMDuI1SgpZ8IyL31mRtEB0nGFbr5d37KjeEfTh7in0yXZUwoe918E6NvkK8nfSf1VFJIPLHb2hEQG1-BcvwTk09a3Ag" />
-    </div>
+    <!-- Side Decoration Removed as per user feedback -->
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -360,6 +386,69 @@
                         duration: 0.2
                     });
                 });
+            });
+
+            // Photo Input Handling
+            const photoInput = document.getElementById('photo-input');
+            photoInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    document.getElementById('photo-text').classList.add('hidden');
+                    document.getElementById('photo-icon').classList.add('hidden');
+                    document.getElementById('photo-success').classList.remove('hidden');
+                }
+            });
+
+            // Form Handling
+            const form = document.getElementById('create-card-form');
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const btn = document.getElementById('submit-btn');
+                const originalText = btn.innerHTML;
+                btn.disabled = true;
+                btn.innerHTML =
+                    '<span class="material-icons-round animate-spin">refresh</span> Processing...';
+
+                const formData = new FormData(form);
+
+                try {
+                    const response = await fetch("{{ route('greeting.store') }}", {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                        }
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        const resultArea = document.getElementById('result-area');
+                        const shareLink = document.getElementById('share-link');
+                        const openLink = document.getElementById('open-link');
+
+                        shareLink.value = data.redirect_url;
+                        openLink.href = data.redirect_url;
+
+                        resultArea.classList.remove('hidden');
+
+                        // Scroll to result
+                        gsap.to(window, {
+                            duration: 1,
+                            scrollTo: "#result-area"
+                        });
+
+                        btn.innerHTML = '<span>Created!</span>';
+                    } else {
+                        alert('Something went wrong. Please check your inputs.');
+                        btn.disabled = false;
+                        btn.innerHTML = originalText;
+                    }
+                } catch (error) {
+                    console.error(error);
+                    alert('Error submitting form.');
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                }
             });
         });
     </script>
